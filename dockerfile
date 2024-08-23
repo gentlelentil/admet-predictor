@@ -4,17 +4,19 @@ FROM continuumio/miniconda3:latest
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR /app
+WORKDIR /admet-predictor
 
-COPY environment.yml /app/
+COPY environment.yml /admet-predictor/
 
 #create conda environment and remove cache
 RUN conda env create -f environment.yml && \
     conda clean --all --yes
 
-SHELL ["conda", "run", "-n", "rdkit_datasets", "/bin/bash", "-c"]
+SHELL ["conda", "run", "-n", "rdkitenv", "/bin/bash", "-c"]
 
-COPY . /app/
+COPY . /admet-predictor/
 
-# run the application
-ENTRYPOINT ["conda", "run", "-n", "rdkit_datasets", "python", "ML_pipeline.py"] 
+EXPOSE 5000
+
+CMD ["conda", "run", "--no-capture-output", "-n", "rdkitenv", "gunicorn", "run", "-w", "4", "-b", "0.0.0.0:5001", "ml_api:app"]
+

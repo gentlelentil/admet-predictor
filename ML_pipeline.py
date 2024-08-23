@@ -124,7 +124,6 @@ def preprocess_smiles(smiles: str, model_name: str):
     return torch.tensor(descriptor, dtype=torch.float32)
 
 #loop to receive SMILES input and run inference
-
 def process_smiles(smiles):
     results = {}
 
@@ -153,12 +152,12 @@ def process_smiles(smiles):
     
     return results
 
-if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print("Usage: python script.py <SMILES>")
-        sys.exit(1)
+# if __name__ == '__main__':
+#     if len(sys.argv) != 2:
+#         print("Usage: python script.py <SMILES>")
+#         sys.exit(1)
 
-    smiles_input = sys.argv[1]
-    results = process_smiles(smiles_input)
-    print(json.dumps(results, indent=4))
+#     smiles_input = sys.argv[1]
+#     results = process_smiles(smiles_input)
+#     print(json.dumps(results, indent=4))
     # process_smiles()
